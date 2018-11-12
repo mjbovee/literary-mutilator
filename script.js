@@ -30,7 +30,7 @@ function randomInt() {
 }
 
 // use xml http request
-const requestURL = 'https://jsonplaceholder.typicode.com/posts/1';
+const requestURL = 'https://jsonplaceholder.typicode.com/posts/3';
 const request = new XMLHttpRequest();
 request.open('GET', requestURL);
 request.responseType = 'json';
@@ -49,12 +49,12 @@ function makeNewParagraph(jsonObj) {
 }
 
 // do the same thing, but with the fetch api
-fetch('https://jsonplaceholder.typicode.com/posts/1')
+fetch('https://jsonplaceholder.typicode.com/posts/3')
 	.then(function(response) {
 		return response.json();
 	})
 	.then(function(myJson) {
-		let newJsonObj = (JSON.stringify(myJson['body']));
+		let newJsonObj = (myJson['body']);
 		let newPara = document.createElement('p');
 		newPara.innerHTML = "<strong>Here's the same text, but inserted using fetch api: </strong>" + newJsonObj;
 		body.appendChild(newPara);
