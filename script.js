@@ -1,7 +1,9 @@
 // declare global variables
-const btn = document.querySelector('button');
+const tacoCat = document.querySelector('#tacoCat');
+const wordUp = document.querySelector('#wordUp');
 const html = document.querySelector('html');
 const body = document.querySelector('body');
+const para1 = document.querySelector('#para1');
 
 // replace "taco" with "tacocat"
 function replaceTaco() {
@@ -14,19 +16,49 @@ function replaceTaco() {
 
 // cahnge the background and text color of the html
 function changeColor() {
-	let r = randomInt();
-	let g = randomInt();
-	let b = randomInt();
-	let r2 = randomInt();
-	let g2 = randomInt();
-	let b2 = randomInt();
+	let r = randomInt(255);
+	let g = randomInt(255);
+	let b = randomInt(255);
+	let r2 = randomInt(255);
+	let g2 = randomInt(255);
+	let b2 = randomInt(255);
 	html.style.background = `rgb(${r}, ${g} ,${b})`;
 	html.style.color = `rgb(${r2}, ${g2} ,${b2})`;
 }
 
 // generate random int < 255 for change color function
-function randomInt() {
-	return(Math.floor((Math.random()) * 255));
+function randomInt(num) {
+	return(Math.floor((Math.random()) * num));
+}
+
+// make array of words out of first paragraph for anagram maker
+const words = para1.innerHTML.split(' ');
+
+// exclude 'taco' from anagram-able words
+const wordsMapped = words.map(word => word.split(''));
+
+let newArray = [];
+
+function wordsScrambled() {
+	para1.innerHTML = shuffle(words).join(' ');
+}
+
+/*function wordsScrambled() {
+	for(i = 0 ; i < wordsMapped.length ; i++) {
+		let scrambled = (wordsMapped[i]).sort().reverse();
+		newArray.push(scrambled.join(''));
+		if(para1.innerHTML !=== newArray.join(' ')) {
+			para1.innerHTML = newArray.join(' ');
+		}
+	}
+}*/
+
+function shuffle(array) {
+	for(i = array.length -1; i > 0; i--) {
+		const rand = randomInt(i + 1);
+		[array[i], array[rand]] = [array[rand], array[i]];
+	}
+	return array;
 }
 
 // use xml http request
@@ -62,4 +94,5 @@ fetch('https://jsonplaceholder.typicode.com/posts/3')
 
 // event listeners
 document.addEventListener('keydown', changeColor);
-btn.addEventListener('click', replaceTaco);
+wordUp.addEventListener('click', wordsScrambled);
+tacoCat.addEventListener('click', replaceTaco);
