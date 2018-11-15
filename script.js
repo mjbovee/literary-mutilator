@@ -1,6 +1,7 @@
 // declare global variables
 const tacoCat = document.querySelector('#tacoCat');
 const wordUp = document.querySelector('#wordUp');
+const letters = document.querySelector('#letters');
 const html = document.querySelector('html');
 const body = document.querySelector('body');
 const para1 = document.querySelector('#para1');
@@ -37,24 +38,20 @@ const words = para1.innerHTML.split(' ');
 // exclude 'taco' from anagram-able words
 const wordsMapped = words.map(word => word.split(''));
 
-let newArray = [];
-
 function wordsScrambled() {
-	para1.innerHTML = shuffle(words).join(' ');
+	para1.innerText = shuffle(words).join(' ');
 }
 
-/*function wordsScrambled() {
-	for(i = 0 ; i < wordsMapped.length ; i++) {
-		let scrambled = (wordsMapped[i]).sort().reverse();
-		newArray.push(scrambled.join(''));
-		if(para1.innerHTML !=== newArray.join(' ')) {
-			para1.innerHTML = newArray.join(' ');
-		}
-	}
-}*/
+function lettersScrambled() {
+	let newArray = [];
+	wordsMapped.forEach(word => {
+		newArray.push(shuffle(word).join(''));
+	});
+	para1.textContent = newArray.join(' ');
+}
 
 function shuffle(array) {
-	for(i = array.length -1; i > 0; i--) {
+	for(let i = array.length -1; i > 0; i--) {
 		const rand = randomInt(i + 1);
 		[array[i], array[rand]] = [array[rand], array[i]];
 	}
@@ -95,4 +92,5 @@ fetch('https://jsonplaceholder.typicode.com/posts/3')
 // event listeners
 document.addEventListener('keydown', changeColor);
 wordUp.addEventListener('click', wordsScrambled);
+letters.addEventListener('click', lettersScrambled);
 tacoCat.addEventListener('click', replaceTaco);
