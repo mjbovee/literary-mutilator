@@ -6,6 +6,24 @@ const html = document.querySelector('html');
 const body = document.querySelector('body');
 const para1 = document.querySelector('#para1');
 
+//HELPER FUNCTIONS
+
+// generate random int for other function
+function randomInt(num) {
+	return(Math.floor((Math.random()) * num));
+}
+
+// shuffle function
+function shuffle(array) {
+	for(let i = array.length -1; i > 0; i--) {
+		const rand = randomInt(i + 1);
+		[array[i], array[rand]] = [array[rand], array[i]];
+	}
+	return array;
+}
+
+// MAIN FUNCTIONS
+
 // replace "taco" with "tacocat"
 function replaceTaco() {
 	let paras = document.querySelectorAll('p');
@@ -27,21 +45,18 @@ function changeColor() {
 	html.style.color = `rgb(${r2}, ${g2} ,${b2})`;
 }
 
-// generate random int < 255 for change color function
-function randomInt(num) {
-	return(Math.floor((Math.random()) * num));
-}
-
 // make array of words out of first paragraph for anagram maker
 const words = para1.innerHTML.split(' ');
 
-// exclude 'taco' from anagram-able words
+// split words array into array of words
 const wordsMapped = words.map(word => word.split(''));
 
+// scramble the words array
 function wordsScrambled() {
 	para1.innerText = shuffle(words).join(' ');
 }
 
+//scramble the contents of the wordsMapped array
 function lettersScrambled() {
 	let newArray = [];
 	wordsMapped.forEach(word => {
@@ -50,13 +65,7 @@ function lettersScrambled() {
 	para1.textContent = newArray.join(' ');
 }
 
-function shuffle(array) {
-	for(let i = array.length -1; i > 0; i--) {
-		const rand = randomInt(i + 1);
-		[array[i], array[rand]] = [array[rand], array[i]];
-	}
-	return array;
-}
+// XML HTTP AND REST FUNCTIONS
 
 // use xml http request
 const requestURL = 'https://jsonplaceholder.typicode.com/posts/3';
@@ -89,7 +98,8 @@ fetch('https://jsonplaceholder.typicode.com/posts/3')
 		body.appendChild(newPara);
 });
 
-// event listeners
+// EVENT LISTENERS
+
 document.addEventListener('keydown', changeColor);
 wordUp.addEventListener('click', wordsScrambled);
 letters.addEventListener('click', lettersScrambled);
